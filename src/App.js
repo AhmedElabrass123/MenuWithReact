@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import React, { useState } from "react";
+import NavBar from "./components/NavBar";
+import MyButton from "./components/MyButton";
+import FoodBox from "./components/FoodBox";
+import FoodData from "./components/FoodData";
+const App = () => {
+  const [itemData, setItemsData] = useState(FoodData);
+  const FilterByCategory = (BtnName) => {
+    if (BtnName === "all") {
+      setItemsData(FoodData);
+    } else {
+      const newArr = FoodData.filter((x) => x.foodName === BtnName);
+      setItemsData(newArr);
+    }
+  };
+  const SearchByCategory = (theSearch) => {
+    console.log("ok");
+    if (theSearch === "all") {
+      setItemsData(FoodData);
+    } else {
+      const searchItems = itemData.filter((item) =>
+        item.foodName.includes(theSearch)
+      );
+      setItemsData(searchItems);
+    }
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <NavBar searchFunc={SearchByCategory} />
+      <MyButton BtnName={FilterByCategory} />
+      <FoodBox itemData={itemData} />
     </div>
   );
-}
+};
 
 export default App;
